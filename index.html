@@ -24,6 +24,18 @@
             </div>
         </div>
         <div class="row">
+            <div class="col-lg-4">
+            </div>
+            <div class="col-lg-4">
+                <label for="averageInput" class="form-label">Desired AO5</label>
+                <input type="text" class="form-control" id="averageInput" oninput="check()">
+            </div>
+            <div class="col-lg-4">
+
+            </div>
+        </div>
+        <div class="row top-buffer"></div>
+        <div class="row">
             <div class="col-lg-2">
 
             </div>
@@ -58,17 +70,13 @@
         </div>
         <div class="row top-buffer"></div>
         <div class="row">
-            <div class="col-lg-4">
+            <div class="col-lg-6">
+                <h1 id="best">Best Possible: N/A</h1>
             </div>
-            <div class="col-lg-4">
-                <label for="averageInput" class="form-label">Desired AO5</label>
-                <input type="text" class="form-control" id="averageInput" oninput="check()">
-            </div>
-            <div class="col-lg-4">
-
+            <div class="col-lg-6">
+                <h1 id="worst">Worst Possible: N/A</h1>
             </div>
         </div>
-        <div class="row top-buffer"></div>
         <!-- <div class="row">
             <div class="col-sm-12">
                 <button type="button" class="btn btn-primary" onclick="calculateTimes()">Calculate</button>
@@ -109,23 +117,21 @@
         t4 = parseFloat(document.getElementById("timeInput4").value)
         average = parseFloat(document.getElementById("averageInput").value)
         if (isNaN(t1)==false && isNaN(t2)==false && isNaN(t3)==false && isNaN(t4)==false && isNaN(average)==false) {
-            $("#placehold").text(calculateTimes());
+            $("#placehold").text(calculateTimes(t1, t2, t3, t4, average));
         } else {
             $("#placehold").text("");
         }
     }
-    function calculateTimes() {
-        t1 = parseFloat(document.getElementById("timeInput1").value)
-        t2 = parseFloat(document.getElementById("timeInput2").value)
-        t3 = parseFloat(document.getElementById("timeInput3").value)
-        t4 = parseFloat(document.getElementById("timeInput4").value)
-        average = parseFloat(document.getElementById("averageInput").value)
+    function calculateTimes(t1, t2, t3, t4, average) {
 
         times = [t1, t2, t3, t4].sort((a,b) => a-b)
 
         max = (times.reduce((a, b) => a + b, 0) - times[0])/3
         min = (times.reduce((a, b) => a + b, 0) - times[3])/3
 
+        $("#best").text("Best Possible: " + min.toFixed(2));
+        $("#worst").text("Worst Possible: " + max.toFixed(2));
+        
         if (average > max) {
             return "Any Time Guarantees The Average."
             //document.getElementById("placehold").innerHTML = "Any Time Guarantees The Average"
