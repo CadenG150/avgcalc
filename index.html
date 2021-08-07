@@ -14,7 +14,7 @@
             <h1 id="header">What Do I Need?</h1>
             <div class="row top-small-buffer"></div>
             <h2 id="info"><small>Formula By u/olimo</small></h2>
-	    <p>Disclaimer: X.X for desired will not do all averages in that tenth of a second.  For example, if your times allow you to get 9.85, but you put 9.8 desired, you will not get it because 9.8 will act as 9.80.</p>
+            <p>Disclaimer: X.X for desired will not do all averages in that tenth of a second.  For example, if your times allow you to get 9.85, but you put 9.8 desired, you will not get it because 9.8 will act as 9.80.</p>
             <div class="row top-buffer"></div>
           </div>
         </div>
@@ -29,11 +29,11 @@
             </div>
             <div class="col-lg-4">
                 <label for="timeInput1" class="form-label">Time 1</label>
-                <input type="text" class="form-control" id="timeInput1">
+                <input type="text" class="form-control" id="timeInput1" oninput="check()">
             </div>
             <div class="col-lg-4">
                 <label for="timeInput2" class="form-label">Time 2</label>
-                <input type="text" class="form-control" id="timeInput2">
+                <input type="text" class="form-control" id="timeInput2" oninput="check()">
             </div>
             <div class="col-lg-2">
 
@@ -46,11 +46,11 @@
             </div>
             <div class="col-lg-4">
                 <label for="timeInput3" class="form-label">Time 3</label>
-                <input type="text" class="form-control" id="timeInput3">
+                <input type="text" class="form-control" id="timeInput3" oninput="check()">
             </div>
             <div class="col-lg-4">
                 <label for="timeInput4" class="form-label">Time 4</label>
-                <input type="text" class="form-control" id="timeInput4">
+                <input type="text" class="form-control" id="timeInput4" oninput="check()">
             </div>
             <div class="col-lg-2">
 
@@ -62,24 +62,24 @@
             </div>
             <div class="col-lg-4">
                 <label for="averageInput" class="form-label">Desired AO5</label>
-                <input type="text" class="form-control" id="averageInput">
+                <input type="text" class="form-control" id="averageInput" oninput="check()">
             </div>
             <div class="col-lg-4">
 
             </div>
         </div>
         <div class="row top-buffer"></div>
-        <div class="row">
+        <!-- <div class="row">
             <div class="col-sm-12">
                 <button type="button" class="btn btn-primary" onclick="calculateTimes()">Calculate</button>
-            </div>            
+            </div>
         </div>
         <div class="row">
             <div class="col-sm-12">
                 <button type="button" class="btn btn-primary" id ="resetter" onclick="reset()">Reset</button>
             </div>
         </div>
-      </div>
+      </div> -->
       
 </body>
 <style>
@@ -102,7 +102,18 @@
     }
 </style>
 <script>
-    $("#resetter").hide();
+    function check() {
+        t1 = parseFloat(document.getElementById("timeInput1").value)
+        t2 = parseFloat(document.getElementById("timeInput2").value)
+        t3 = parseFloat(document.getElementById("timeInput3").value)
+        t4 = parseFloat(document.getElementById("timeInput4").value)
+        average = parseFloat(document.getElementById("averageInput").value)
+        if (isNaN(t1)==false && isNaN(t2)==false && isNaN(t3)==false && isNaN(t4)==false && isNaN(average)==false) {
+            $("#placehold").text(calculateTimes());
+        } else {
+            $("#placehold").text("");
+        }
+    }
     function calculateTimes() {
         t1 = parseFloat(document.getElementById("timeInput1").value)
         t2 = parseFloat(document.getElementById("timeInput2").value)
@@ -112,26 +123,19 @@
 
         times = [t1, t2, t3, t4].sort((a,b) => a-b)
 
-        $(".col-lg-4").children().hide();
-        $(".col-sm-12").children().hide();
-        $("#resetter").show();
-
         max = (times.reduce((a, b) => a + b, 0) - times[0])/3
         min = (times.reduce((a, b) => a + b, 0) - times[3])/3
 
         if (average > max) {
-            document.getElementById("placehold").innerHTML = "Any Time Guarantees The Average"
+            return "Any Time Guarantees The Average."
+            //document.getElementById("placehold").innerHTML = "Any Time Guarantees The Average"
         } else if (average <= max && average >= min) {
-            document.getElementById("placehold").innerHTML = (3*average-(times.reduce((a, b) => a + b, 0)-times[0]-times[3])).toFixed(2)
+            //document.getElementById("placehold").innerHTML = (3*average-(times.reduce((a, b) => a + b, 0)-times[0]-times[3])).toFixed(2)
+            return (3*average-(times.reduce((a, b) => a + b, 0)-times[0]-times[3])).toFixed(2)
         } else {
-            document.getElementById("placehold").innerHTML = "This Is Not Possible"
+            //document.getElementById("placehold").innerHTML = "This Is Not Possible"
+            return "This Average Is Not Possible With Your Current Times."
         }
-    }
-    function reset() {
-        $(".col-lg-4").children().show();
-        $(".col-sm-12").children().show();
-        $("#resetter").hide();
-        document.getElementById("placehold").innerHTML = ""
     }
 </script>
 </html>
