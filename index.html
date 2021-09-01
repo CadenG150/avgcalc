@@ -10,6 +10,7 @@
 </head>
 <body>
     <div class="container">
+        <div id="particles-js"></div>
         <div class="row">
           <div class="col-lg-12">
             <h1 id="header">What Do I Need?</h1>
@@ -114,6 +115,24 @@
     .btn {
         font-size: 2em;
     }
+    #particles-js {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background-image: url("");
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-position: 50% 50%;
+    }
+  
+    #particles-js {
+        position: fixed;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        z-index: -1;
+}
 </style>
 <script>
     function check() {
